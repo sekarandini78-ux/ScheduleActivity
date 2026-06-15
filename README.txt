@@ -1,8 +1,8 @@
-# JadwalKegiatan
+# ScheduleActivity
  
 Nama Kelompok : CHRONOSYS
 
-Judul Aplikasi : Sistem Pengelolaan Jadwal \& Agenda Kegiatan
+Judul Aplikasi : Sistem Pengelolaan Jadwal & Agenda Kegiatan
 
 Tentang Aplikasi:
 
@@ -63,7 +63,7 @@ Pengguna baru bisa mendaftar sendiri dengan mengisi data lengkap. Sistem akan ot
 2. Pengelolaan Jadwal Kegiatan
 Pengguna bisa menambah daftar kegiatan, melihat semua jadwal yang sudah dibuat, mengubah isi jadwal kalau ada perubahan, serta menghapus kegiatan yang sudah selesai atau tidak diperlukan lagi.
 
-3. Keamanan \& Kerapian Data
+3. Keamanan & Kerapian Data
 Semua informasi akun dan jadwal tersimpan rapi di dalam database MySQL, jadi data aman, tidak mudah hilang, dan terstruktur dengan baik.
 
 4. Pembagian Hak Akses
