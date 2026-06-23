@@ -1,3 +1,7 @@
+package gui;
+import entity.*;
+import repository.*;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -7,14 +11,14 @@
  *
  * @author Dwi Sekar
  */
-public class RiwayatKegiatanFrame extends javax.swing.JFrame {
+public class PengingatFrame extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RiwayatKegiatanFrame.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PengingatFrame.class.getName());
 
     /**
-     * Creates new form RiwayatKegiatanFrame
+     * Creates new form PengingatFrame
      */
-    public RiwayatKegiatanFrame() {
+    public PengingatFrame() {
         initComponents();
     }
 
@@ -32,10 +36,11 @@ public class RiwayatKegiatanFrame extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
-        jPanel2 = new javax.swing.JPanel();
-        scrollRiwayat = new javax.swing.JScrollPane();
-        tblRiwayat = new javax.swing.JTable();
-        btnBack = new javax.swing.JButton();
+        lblDaftarPengingat = new javax.swing.JLabel();
+        scrollDaftarPengingat = new javax.swing.JScrollPane();
+        PanelDaftar = new javax.swing.JPanel();
+        btnTandaiSelesai = new javax.swing.JButton();
+        btnBalik = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,49 +48,25 @@ public class RiwayatKegiatanFrame extends javax.swing.JFrame {
 
         lblJudul.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         lblJudul.setForeground(new java.awt.Color(153, 153, 255));
-        lblJudul.setText("Riwayat Kegiatan");
+        lblJudul.setText("Pengingat");
 
-        scrollRiwayat.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollRiwayat.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        lblDaftarPengingat.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        lblDaftarPengingat.setForeground(new java.awt.Color(153, 153, 255));
+        lblDaftarPengingat.setText("Daftar Pengingat");
 
-        tblRiwayat.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "No", "Nama Kegiatan", "Kategori", "Tanggal", "Jam", "Prioritas", "Keterangan", "Status"
-            }
-        ));
-        scrollRiwayat.setViewportView(tblRiwayat);
+        scrollDaftarPengingat.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollDaftarPengingat.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        btnBack.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnBack.setText("Kembali");
+        PanelDaftar.setLayout(new javax.swing.BoxLayout(PanelDaftar, javax.swing.BoxLayout.Y_AXIS));
+        scrollDaftarPengingat.setViewportView(PanelDaftar);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(scrollRiwayat)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnBack)
-                .addGap(19, 19, 19))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
-                .addComponent(scrollRiwayat, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnBack)
-                .addGap(22, 22, 22))
-        );
+        btnTandaiSelesai.setBackground(new java.awt.Color(204, 255, 204));
+        btnTandaiSelesai.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTandaiSelesai.setForeground(new java.awt.Color(0, 204, 0));
+        btnTandaiSelesai.setText("Tandai Selesai");
+
+        btnBalik.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBalik.setText("Kembali");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -94,34 +75,47 @@ public class RiwayatKegiatanFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(170, 170, 170)
-                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblJudul)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(158, 158, 158)
-                                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 200, Short.MAX_VALUE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addGap(207, 207, 207)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblJudul)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(190, 190, 190)
+                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addGap(30, 30, 30)
+                            .addComponent(btnTandaiSelesai)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBalik))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addGap(19, 19, 19)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblDaftarPengingat)
+                                .addComponent(scrollDaftarPengingat, javax.swing.GroupLayout.PREFERRED_SIZE, 641, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblJudul))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(lblDaftarPengingat)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollDaftarPengingat, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTandaiSelesai)
+                    .addComponent(btnBalik))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -160,18 +154,19 @@ public class RiwayatKegiatanFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new RiwayatKegiatanFrame().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new PengingatFrame().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBack;
+    private javax.swing.JPanel PanelDaftar;
+    private javax.swing.JButton btnBalik;
+    private javax.swing.JButton btnTandaiSelesai;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JLabel lblDaftarPengingat;
     private javax.swing.JLabel lblJudul;
-    private javax.swing.JScrollPane scrollRiwayat;
-    private javax.swing.JTable tblRiwayat;
+    private javax.swing.JScrollPane scrollDaftarPengingat;
     // End of variables declaration//GEN-END:variables
 }

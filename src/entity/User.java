@@ -1,3 +1,6 @@
+package entity;
+import repository.Pengelolaan;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -9,12 +12,13 @@
  */
     public class User extends Pengguna implements Pengelolaan {
         
-    public User(int id, String nama, String email, String sandi, String hakAkses) {
-        super(id, nama, email, sandi, hakAkses);
+    public User(int id, String nama, String username, String email, String sandi, String hakAkses) {
+        super(id, nama, username, email, sandi, hakAkses);
     }
 
     @Override
     public void tampilProfil() {
+        super.tampilProfil();
         System.out.println("Profil Pengguna");
         System.out.println("ID       : " + getId());
         System.out.println("Nama     : " + getNama());
