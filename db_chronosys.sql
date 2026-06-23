@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 15, 2026 at 10:44 AM
+-- Generation Time: Jun 21, 2026 at 11:44 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -68,9 +68,9 @@ CREATE TABLE `tb_pengguna` (
 --
 
 INSERT INTO `tb_pengguna` (`id_pengguna`, `nama_lengkap`, `username`, `email`, `password`, `hak_akses`) VALUES
-(1, 'Dwi Sekar Andini', 'sekar', '0', 'admin123', 'admin'),
-(2, 'Adelia Dwi Arafah', 'adelia', '0', 'user123', 'user'),
-(3, 'Delphia Oktaviani', 'delphia', '0', 'user123', 'user');
+(1, 'Dwi Sekar Andini', 'sekar', 'dwi.sekar@mail.com', 'admin123', 'admin'),
+(2, 'Adelia Dwi Arafah', 'adelia', 'adelia.dwi@mail.com\r\n', 'user123', 'user'),
+(3, 'Delphia Oktaviani', 'delphia', 'delphia.okta@mail.com', 'user123', 'user');
 
 --
 -- Indexes for dumped tables

@@ -1,8 +1,15 @@
+package gui;
+import entity.*;
+import repository.*;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
+import java.sql.SQLException;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Dwi Sekar
@@ -15,6 +22,7 @@ public class TambahJadwalFrame extends javax.swing.JFrame {
      */
     public TambahJadwalFrame() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
