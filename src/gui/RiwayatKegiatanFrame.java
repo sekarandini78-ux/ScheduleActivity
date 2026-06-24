@@ -1,6 +1,13 @@
 package gui;
 import entity.*;
 import repository.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -14,14 +21,68 @@ import repository.*;
 public class RiwayatKegiatanFrame extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RiwayatKegiatanFrame.class.getName());
-
+    CRUD crud = new CRUD();
+    private int idPengguna;
     /**
      * Creates new form RiwayatKegiatanFrame
      */
     public RiwayatKegiatanFrame() {
         initComponents();
+        setLocationRelativeTo(null);
+        btnBack.addActionListener(this::btnBackActionPerformed);
     }
 
+    public RiwayatKegiatanFrame(int idPengguna) {
+        this();
+        this.idPengguna = idPengguna;
+        tampilkanRiwayat();
+    }
+    
+        private void tampilkanRiwayat() {
+    DefaultTableModel model = (DefaultTableModel) tblRiwayat.getModel();
+    model.setRowCount(0);
+
+    try {
+        ResultSet rs = crud.tampilSemuaKegiatan(idPengguna);
+        SimpleDateFormat formatTgl = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatJam = new SimpleDateFormat("HH:mm");
+        Date sekarang = new Date();
+
+        int no = 1;
+        while (rs.next()) {
+            String status = rs.getString("status");
+            Date tgl = formatTgl.parse(rs.getString("tanggal"));
+            Date jam = formatJam.parse(rs.getString("jam"));
+
+            Calendar waktu = Calendar.getInstance();
+            waktu.setTime(tgl);
+            Calendar jamKal = Calendar.getInstance();
+            jamKal.setTime(jam);
+            waktu.set(Calendar.HOUR_OF_DAY, jamKal.get(Calendar.HOUR_OF_DAY));
+            waktu.set(Calendar.MINUTE, jamKal.get(Calendar.MINUTE));
+            waktu.set(Calendar.SECOND, 0);
+
+            boolean sudahLewat = waktu.getTimeInMillis() < sekarang.getTime();
+
+            if (status.equalsIgnoreCase("Selesai") || sudahLewat) {
+                String tampilStatus = sudahLewat ? "Selesai" : status;
+                model.addRow(new Object[]{
+                    no++,
+                    rs.getString("nama_kegiatan"),
+                    rs.getString("kategori"),
+                    rs.getString("tanggal"),
+                    rs.getString("jam"),
+                    rs.getString("prioritas"),
+                    rs.getString("keterangan"),
+                    tampilStatus
+                });
+            }
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Gagal memuat riwayat: " + e.getMessage());
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -67,6 +128,7 @@ public class RiwayatKegiatanFrame extends javax.swing.JFrame {
 
         btnBack.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnBack.setText("Kembali");
+        btnBack.addActionListener(this::btnBackActionPerformed);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -97,20 +159,19 @@ public class RiwayatKegiatanFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(176, 176, 176)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(170, 170, 170)
+                                .addGap(14, 14, 14)
                                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lblJudul)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(158, 158, 158)
-                                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 200, Short.MAX_VALUE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 182, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -142,6 +203,10 @@ public class RiwayatKegiatanFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -164,7 +229,7 @@ public class RiwayatKegiatanFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new RiwayatKegiatanFrame().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new RiwayatKegiatanFrame(2).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

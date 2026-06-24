@@ -1,6 +1,13 @@
 package gui;
 import entity.*;
 import repository.*;
+import java.util.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -14,13 +21,67 @@ import repository.*;
 public class LihatJadwalFrame extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LihatJadwalFrame.class.getName());
-
+    CRUD crud = new CRUD();
+    private int idPengguna;
+    
     /**
      * Creates new form LihatJadwalFrame
      */
     public LihatJadwalFrame() {
         initComponents();
+        setLocationRelativeTo(null);
     }
+    
+    public LihatJadwalFrame(int idPengguna) {
+        this();
+        this.idPengguna = idPengguna;
+        tampilkanJadwal();
+    }
+    
+    private void tampilkanJadwal() {
+    DefaultTableModel model = (DefaultTableModel) tblJadwal.getModel();
+    model.setRowCount(0);
+
+    try {
+        ResultSet rs = crud.tampilSemuaKegiatan(idPengguna);
+        SimpleDateFormat formatTgl = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatJam = new SimpleDateFormat("HH:mm");
+        Date sekarang = new Date();
+
+        int no = 1;
+        while (rs.next()) {
+            String status = rs.getString("status");
+            Date tgl = formatTgl.parse(rs.getString("tanggal"));
+            Date jam = formatJam.parse(rs.getString("jam"));
+
+            Calendar waktu = Calendar.getInstance();
+            waktu.setTime(tgl);
+            Calendar jamKal = Calendar.getInstance();
+            jamKal.setTime(jam);
+            waktu.set(Calendar.HOUR_OF_DAY, jamKal.get(Calendar.HOUR_OF_DAY));
+            waktu.set(Calendar.MINUTE, jamKal.get(Calendar.MINUTE));
+            waktu.set(Calendar.SECOND, 0);
+
+            boolean sudahLewat = waktu.getTimeInMillis() < sekarang.getTime();
+
+            if (status.equalsIgnoreCase("Belum Selesai") && !sudahLewat) {
+                model.addRow(new Object[]{
+                    rs.getInt("id_kegiatan"),
+                    rs.getString("nama_kegiatan"),
+                    rs.getString("kategori"),
+                    rs.getString("tanggal"),
+                    rs.getString("jam"),
+                    rs.getString("prioritas"),
+                    status,
+                    rs.getString("keterangan")
+                });
+            }
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Gagal memuat jadwal: " + e.getMessage());
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -59,6 +120,7 @@ public class LihatJadwalFrame extends javax.swing.JFrame {
         txtCari.addActionListener(this::txtCariActionPerformed);
 
         btnCari.setText("Cari");
+        btnCari.addActionListener(this::btnCariActionPerformed);
 
         tblJadwal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -81,6 +143,7 @@ public class LihatJadwalFrame extends javax.swing.JFrame {
 
         btnEdit.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnEdit.setText("Edit");
+        btnEdit.addActionListener(this::btnEditActionPerformed);
 
         btnHapus.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnHapus.setText("Hapus");
@@ -172,20 +235,109 @@ public class LihatJadwalFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCariActionPerformed
-        // TODO add your handling code here:
+        btnCariActionPerformed(evt);
     }//GEN-LAST:event_txtCariActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
-        // TODO add your handling code here:
+    int barisTerpilih = tblJadwal.getSelectedRow();
+        if (barisTerpilih == -1) {
+            JOptionPane.showMessageDialog(null, "Pilih data yang ingin dihapus terlebih dahulu!");
+            return;
+        }
+
+        int idKegiatan = Integer.parseInt(tblJadwal.getValueAt(barisTerpilih, 0).toString());
+        int konfirmasi = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus jadwal ini?", "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION);
+
+        if (konfirmasi == JOptionPane.YES_OPTION) {
+            boolean berhasil = crud.hapusKegiatan(idKegiatan);
+            if (berhasil) {
+                JOptionPane.showMessageDialog(null, "Jadwal berhasil dihapus!");
+                tampilkanJadwal();
+            } else {
+                JOptionPane.showMessageDialog(null, "Gagal menghapus jadwal!");
+            }
+        }                                   
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_btnKembaliActionPerformed
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-        // TODO add your handling code here:
+        TambahJadwalFrame tambah = new TambahJadwalFrame(idPengguna);
+        tambah.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                tampilkanJadwal();
+            }
+        });
+        tambah.setVisible(true);                                  
     }//GEN-LAST:event_btnTambahActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+    int barisTerpilih = tblJadwal.getSelectedRow();
+        if (barisTerpilih == -1) {
+            JOptionPane.showMessageDialog(null, "Pilih data yang ingin diubah terlebih dahulu!");
+            return;
+        }
+
+        int idKegiatan = Integer.parseInt(tblJadwal.getValueAt(barisTerpilih, 0).toString());
+        TambahJadwalFrame ubah = new TambahJadwalFrame(idPengguna, idKegiatan);
+        ubah.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                tampilkanJadwal();
+            }
+        });
+        ubah.setVisible(true);                                 
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
+        String kataKunci = txtCari.getText().trim();
+        DefaultTableModel model = (DefaultTableModel) tblJadwal.getModel();
+        model.setRowCount(0);
+        
+        if (kataKunci.isEmpty()) {
+            tampilkanJadwal();
+            return;
+        }
+
+        ResultSet rs = crud.cariKegiatan(idPengguna, kataKunci);
+        List<Kegiatan> hasilCari = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+                Kegiatan k = new Kegiatan(
+                    rs.getInt("id_kegiatan"),
+                    rs.getInt("id_pengguna"),
+                    rs.getString("nama_kegiatan"),
+                    rs.getString("kategori"),
+                    rs.getString("tanggal"),
+                    rs.getString("jam"),
+                    rs.getString("prioritas"),
+                    rs.getString("keterangan"),
+                    rs.getString("status")
+                );
+                hasilCari.add(k);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Gagal melakukan pencarian: " + e.getMessage());
+            return;
+        }
+
+        for (Kegiatan k : hasilCari) {
+            model.addRow(new Object[]{
+                k.getIdKegiatan(),
+                k.getNamaKegiatan(),
+                k.getKategori(),
+                k.getTanggal(),
+                k.getJam(),
+                k.getPrioritas(),
+                k.getStatus(),
+                k.getKeterangan()
+            });
+        }                                     
+    }//GEN-LAST:event_btnCariActionPerformed
 
     /**
      * @param args the command line arguments
@@ -209,7 +361,7 @@ public class LihatJadwalFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new LihatJadwalFrame().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new LihatJadwalFrame(2).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

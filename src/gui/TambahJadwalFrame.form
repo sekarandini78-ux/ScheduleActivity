@@ -84,8 +84,8 @@
                   <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                   <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jPanel2" min="-2" pref="305" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="jPanel2" min="-2" pref="310" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnSimpan" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnBatal" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -127,15 +127,17 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="45" pref="45" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblStatus" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblKeterangan" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblPrioritas" alignment="1" min="-2" pref="114" max="-2" attributes="0"/>
-                                  <Component id="lblJam" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblTanggal" alignment="1" min="-2" pref="117" max="-2" attributes="0"/>
-                                  <Component id="lblKategori" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblNamaKegiatan" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lblStatus" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblKeterangan" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblPrioritas" alignment="1" min="-2" pref="114" max="-2" attributes="0"/>
+                                      <Component id="lblJam" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblTanggal" alignment="1" min="-2" pref="117" max="-2" attributes="0"/>
+                                      <Component id="lblKategori" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="lblNamaKegiatan" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -150,7 +152,7 @@
                                   <Component id="cmbStatus" min="-2" pref="215" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jSeparator4" min="-2" pref="445" max="-2" attributes="0"/>
@@ -168,25 +170,27 @@
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <Component id="jSeparator4" min="-2" pref="11" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblNamaKegiatan" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                              <Component id="txtNamaKegiatan" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="cmbKategori" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblNamaKegiatan" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtNamaKegiatan" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblKategori" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cmbKategori" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblTanggal" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbbKalender" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="cbbKalender" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="lblTanggal" min="-2" pref="20" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblJam" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="spinJam" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -203,7 +207,7 @@
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace pref="7" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="lblStatus" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                           </Group>

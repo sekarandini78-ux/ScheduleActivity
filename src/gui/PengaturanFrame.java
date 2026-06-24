@@ -1,3 +1,8 @@
+package gui;
+import entity.*;
+import repository.CRUD;
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -10,13 +15,19 @@
 public class PengaturanFrame extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PengaturanFrame.class.getName());
-
+    private CRUD crud = new CRUD();
+    private int idPengguna = 0;
     /**
      * Creates new form PengaturanFrame
      */
     public PengaturanFrame() {
         initComponents();
     }
+    
+    public PengaturanFrame(int idPengguna) {
+    this();
+    this.idPengguna = idPengguna;
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -87,8 +98,10 @@ public class PengaturanFrame extends javax.swing.JFrame {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5 menit", "10 menit", "15 menit", "30 menit", "60 menit" }));
 
         jButton1.setText("Simpan");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
 
         jButton2.setText("Kembali");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -181,6 +194,45 @@ public class PengaturanFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String passLama = new String(jPasswordField1.getPassword()).trim();
+        String passBaru = new String(jPasswordField2.getPassword()).trim();
+        String passKonfirm = new String(jPasswordField3.getPassword()).trim();
+
+        if (idPengguna <= 0) {
+            JOptionPane.showMessageDialog(null, "Data pengguna tidak valid!");
+            return;
+        }
+        if (passBaru.isEmpty() || passKonfirm.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Password baru tidak boleh kosong!");
+            return;
+        }
+        if (!passBaru.equals(passKonfirm)) {
+            JOptionPane.showMessageDialog(null, "Konfirmasi tidak cocok!");
+            return;
+        }
+
+        boolean sukses;
+        if (passLama.isEmpty()) {
+            sukses = crud.ubahPassword(idPengguna, passBaru);
+        } else {
+            sukses = crud.ubahPassword(idPengguna, passLama, passBaru);
+        }
+
+        if (sukses) {
+            JOptionPane.showMessageDialog(null, "Password berhasil diubah!");
+            // new LoginFrame().setVisible(true);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Gagal ubah password!");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // new LoginFrame().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

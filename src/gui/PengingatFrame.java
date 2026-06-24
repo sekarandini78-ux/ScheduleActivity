@@ -1,6 +1,13 @@
 package gui;
 import entity.*;
 import repository.*;
+import javax.swing.*;
+import java.sql.*;
+import java.util.*;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.awt.Color;
+import java.awt.FlowLayout;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -14,14 +21,159 @@ import repository.*;
 public class PengingatFrame extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PengingatFrame.class.getName());
-
+    CRUD crud = new CRUD();
+    private int idPengguna;
+    private java.util.List<Kegiatan> daftarPengingat;
+    
     /**
      * Creates new form PengingatFrame
      */
     public PengingatFrame() {
         initComponents();
+        setLocationRelativeTo(null);
+        btnTandaiSelesai.addActionListener(this::btnTandaiSelesaiActionPerformed);
+        btnBalik.addActionListener(this::btnBalikActionPerformed);
+    }
+    
+    public PengingatFrame(int idPengguna) {
+        this();
+        this.idPengguna = idPengguna;
+        tampilkanPengingat();
     }
 
+    private void tampilkanPengingat() {
+    PanelDaftar.removeAll();
+    daftarPengingat = new ArrayList<>();
+
+    try {
+        ResultSet rs = crud.tampilSemuaKegiatan(idPengguna);
+        SimpleDateFormat formatTgl = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatJam = new SimpleDateFormat("HH:mm");
+        Date sekarang = new Date();
+
+        while (rs.next()) {
+            String status = rs.getString("status");
+            if (!status.equalsIgnoreCase("Belum Selesai")) continue;
+
+            Date tglKegiatan = formatTgl.parse(rs.getString("tanggal"));
+            Date jamKegiatan = formatJam.parse(rs.getString("jam"));
+
+            Calendar kalTgl = Calendar.getInstance();
+            kalTgl.setTime(tglKegiatan);
+            Calendar kalJam = Calendar.getInstance();
+            kalJam.setTime(jamKegiatan);
+            
+            Calendar waktuKegiatan = Calendar.getInstance();
+            waktuKegiatan.set(kalTgl.get(Calendar.YEAR), kalTgl.get(Calendar.MONTH), kalTgl.get(Calendar.DAY_OF_MONTH),
+                              kalJam.get(Calendar.HOUR_OF_DAY), kalJam.get(Calendar.MINUTE), 0);
+            
+            long selisihMs = waktuKegiatan.getTimeInMillis() - sekarang.getTime();
+            long selisihHari = selisihMs / (1000 * 60 * 60 * 24);
+
+            boolean tampil = false;
+            if (selisihHari > 0 && selisihHari <= 3) {
+                tampil = true;
+            } else if (selisihHari == 0 && selisihMs > 0) {
+                tampil = true;
+            }
+
+            if (tampil) {
+                Kegiatan k = new Kegiatan(
+                    rs.getInt("id_kegiatan"),
+                    rs.getInt("id_pengguna"),
+                    rs.getString("nama_kegiatan"),
+                    rs.getString("kategori"),
+                    rs.getString("tanggal"),
+                    rs.getString("jam"),
+                    rs.getString("prioritas"),
+                    rs.getString("keterangan"),
+                    rs.getString("status")
+                );
+                daftarPengingat.add(k);
+            }
+        }
+
+        daftarPengingat.sort((a, b) -> {
+            int bandingTgl = a.getTanggal().compareTo(b.getTanggal());
+            if (bandingTgl != 0) return bandingTgl;
+            return a.getJam().compareTo(b.getJam());
+        });
+
+        if (daftarPengingat.isEmpty()) {
+            PanelDaftar.add(new JLabel("Tidak ada jadwal yang mendekati waktunya"));
+        } else {
+            for (Kegiatan k : daftarPengingat) {
+                JPanel panelItem = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                panelItem.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
+                panelItem.setBackground(Color.WHITE);
+
+                Date tgl = formatTgl.parse(k.getTanggal());
+                Date jam = formatJam.parse(k.getJam());
+
+                Calendar kalTgl = Calendar.getInstance();
+                kalTgl.setTime(tgl);
+                Calendar kalJam = Calendar.getInstance();
+                kalJam.setTime(jam);
+                
+                Calendar waktuKegiatan = Calendar.getInstance();
+                waktuKegiatan.set(kalTgl.get(Calendar.YEAR), kalTgl.get(Calendar.MONTH), kalTgl.get(Calendar.DAY_OF_MONTH),
+                                  kalJam.get(Calendar.HOUR_OF_DAY), kalJam.get(Calendar.MINUTE), 0);
+                
+                long selisihMs = waktuKegiatan.getTimeInMillis() - sekarang.getTime();
+
+                String sisaWaktu = "";
+                Color warnaTeks = Color.BLACK;
+
+                if (selisihMs < 0) {
+                    sisaWaktu = "Sudah lewat";
+                    warnaTeks = new Color(128, 128, 128);
+                } else {
+                    long menit = selisihMs / (1000 * 60);
+                    long jamSisa = menit / 60;
+                    long hariSisa = jamSisa / 24;
+
+                    if (hariSisa > 0) {
+                        sisaWaktu = hariSisa + " hari lagi";
+                    } else if (jamSisa > 0) {
+                        long sisaMenit = menit % 60;
+                        sisaWaktu = jamSisa + " jam " + sisaMenit + " menit lagi";
+                        if (jamSisa < 1) {
+                            sisaWaktu = menit + " menit lagi";
+                            warnaTeks = new Color(204, 0, 0);
+                        } else if (jamSisa <= 3) {
+                            warnaTeks = new Color(255, 102, 0);
+                        } else {
+                            warnaTeks = Color.BLACK;
+                        }
+                    } else {
+                        sisaWaktu = menit + " menit lagi";
+                        warnaTeks = new Color(204, 0, 0);
+                    }
+                }
+
+                String teks = String.format(
+                    "<html><b>%s</b> | %s<br>Tanggal: %s | Jam: %s | Prioritas: %s | <span style='color:%s; font-weight:bold;'>%s</span></html>",
+                    k.getNamaKegiatan(), k.getKategori(),
+                    k.getTanggal(), k.getJam(), k.getPrioritas(),
+                    "rgb(" + warnaTeks.getRed() + "," + warnaTeks.getGreen() + "," + warnaTeks.getBlue() + ")",
+                    sisaWaktu
+                );
+
+                JLabel lbl = new JLabel(teks);
+                lbl.setOpaque(true);
+                lbl.setBackground(Color.WHITE);
+                panelItem.add(lbl);
+                PanelDaftar.add(panelItem);
+            }
+        }
+
+        PanelDaftar.revalidate();
+        PanelDaftar.repaint();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Gagal memuat pengingat: " + e.getMessage());
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -64,9 +216,11 @@ public class PengingatFrame extends javax.swing.JFrame {
         btnTandaiSelesai.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnTandaiSelesai.setForeground(new java.awt.Color(0, 204, 0));
         btnTandaiSelesai.setText("Tandai Selesai");
+        btnTandaiSelesai.addActionListener(this::btnTandaiSelesaiActionPerformed);
 
         btnBalik.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnBalik.setText("Kembali");
+        btnBalik.addActionListener(this::btnBalikActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -132,6 +286,29 @@ public class PengingatFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnTandaiSelesaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTandaiSelesaiActionPerformed
+        if (daftarPengingat == null || daftarPengingat.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Tidak ada jadwal untuk ditandai selesai!");
+            return;
+        }
+        
+        Kegiatan k = daftarPengingat.get(0);
+        k.setStatus("Selesai");
+
+        boolean sukses = crud.ubahKegiatan(k);
+
+        if (sukses) {
+            JOptionPane.showMessageDialog(null, "Jadwal berhasil ditandai selesai!");
+            tampilkanPengingat();
+        } else {
+            JOptionPane.showMessageDialog(null, "Gagal mengubah status!");
+        }                                                                           
+    }//GEN-LAST:event_btnTandaiSelesaiActionPerformed
+
+    private void btnBalikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBalikActionPerformed
+       dispose();
+    }//GEN-LAST:event_btnBalikActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -154,7 +331,7 @@ public class PengingatFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new PengingatFrame().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new PengingatFrame(2).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
