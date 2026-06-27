@@ -42,138 +42,141 @@ public class PengingatFrame extends javax.swing.JFrame {
     }
 
     private void tampilkanPengingat() {
-    PanelDaftar.removeAll();
-    daftarPengingat = new ArrayList<>();
+        PanelDaftar.removeAll();
+        daftarPengingat = new ArrayList<>();
+        crud.updateStatusOtomatis();
 
-    try {
-        ResultSet rs = crud.tampilSemuaKegiatan(idPengguna);
-        SimpleDateFormat formatTgl = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat formatJam = new SimpleDateFormat("HH:mm");
-        Date sekarang = new Date();
+        try {
+            ResultSet rs = crud.tampilSemuaKegiatan(idPengguna);
+            SimpleDateFormat formatTgl = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat formatJam = new SimpleDateFormat("HH:mm");
+            Date sekarang = new Date();
 
-        while (rs.next()) {
-            String status = rs.getString("status");
-            if (!status.equalsIgnoreCase("Belum Selesai")) continue;
+            while (rs.next()) {
+                String status = rs.getString("status");
+                if (!status.equalsIgnoreCase("Belum Selesai")) continue;
 
-            Date tglKegiatan = formatTgl.parse(rs.getString("tanggal"));
-            Date jamKegiatan = formatJam.parse(rs.getString("jam"));
-
-            Calendar kalTgl = Calendar.getInstance();
-            kalTgl.setTime(tglKegiatan);
-            Calendar kalJam = Calendar.getInstance();
-            kalJam.setTime(jamKegiatan);
-            
-            Calendar waktuKegiatan = Calendar.getInstance();
-            waktuKegiatan.set(kalTgl.get(Calendar.YEAR), kalTgl.get(Calendar.MONTH), kalTgl.get(Calendar.DAY_OF_MONTH),
-                              kalJam.get(Calendar.HOUR_OF_DAY), kalJam.get(Calendar.MINUTE), 0);
-            
-            long selisihMs = waktuKegiatan.getTimeInMillis() - sekarang.getTime();
-            long selisihHari = selisihMs / (1000 * 60 * 60 * 24);
-
-            boolean tampil = false;
-            if (selisihHari > 0 && selisihHari <= 3) {
-                tampil = true;
-            } else if (selisihHari == 0 && selisihMs > 0) {
-                tampil = true;
-            }
-
-            if (tampil) {
-                Kegiatan k = new Kegiatan(
-                    rs.getInt("id_kegiatan"),
-                    rs.getInt("id_pengguna"),
-                    rs.getString("nama_kegiatan"),
-                    rs.getString("kategori"),
-                    rs.getString("tanggal"),
-                    rs.getString("jam"),
-                    rs.getString("prioritas"),
-                    rs.getString("keterangan"),
-                    rs.getString("status")
-                );
-                daftarPengingat.add(k);
-            }
-        }
-
-        daftarPengingat.sort((a, b) -> {
-            int bandingTgl = a.getTanggal().compareTo(b.getTanggal());
-            if (bandingTgl != 0) return bandingTgl;
-            return a.getJam().compareTo(b.getJam());
-        });
-
-        if (daftarPengingat.isEmpty()) {
-            PanelDaftar.add(new JLabel("Tidak ada jadwal yang mendekati waktunya"));
-        } else {
-            for (Kegiatan k : daftarPengingat) {
-                JPanel panelItem = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                panelItem.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
-                panelItem.setBackground(Color.WHITE);
-
-                Date tgl = formatTgl.parse(k.getTanggal());
-                Date jam = formatJam.parse(k.getJam());
+                Date tglKegiatan = formatTgl.parse(rs.getString("tanggal"));
+                Date jamKegiatan = formatJam.parse(rs.getString("jam"));
 
                 Calendar kalTgl = Calendar.getInstance();
-                kalTgl.setTime(tgl);
+                kalTgl.setTime(tglKegiatan);
                 Calendar kalJam = Calendar.getInstance();
-                kalJam.setTime(jam);
+                kalJam.setTime(jamKegiatan);
                 
                 Calendar waktuKegiatan = Calendar.getInstance();
                 waktuKegiatan.set(kalTgl.get(Calendar.YEAR), kalTgl.get(Calendar.MONTH), kalTgl.get(Calendar.DAY_OF_MONTH),
                                   kalJam.get(Calendar.HOUR_OF_DAY), kalJam.get(Calendar.MINUTE), 0);
                 
                 long selisihMs = waktuKegiatan.getTimeInMillis() - sekarang.getTime();
+                long selisihHari = selisihMs / (1000 * 60 * 60 * 24);
 
-                String sisaWaktu = "";
-                Color warnaTeks = Color.BLACK;
-
-                if (selisihMs < 0) {
-                    sisaWaktu = "Sudah lewat";
-                    warnaTeks = new Color(128, 128, 128);
-                } else {
-                    long menit = selisihMs / (1000 * 60);
-                    long jamSisa = menit / 60;
-                    long hariSisa = jamSisa / 24;
-
-                    if (hariSisa > 0) {
-                        sisaWaktu = hariSisa + " hari lagi";
-                    } else if (jamSisa > 0) {
-                        long sisaMenit = menit % 60;
-                        sisaWaktu = jamSisa + " jam " + sisaMenit + " menit lagi";
-                        if (jamSisa < 1) {
-                            sisaWaktu = menit + " menit lagi";
-                            warnaTeks = new Color(204, 0, 0);
-                        } else if (jamSisa <= 3) {
-                            warnaTeks = new Color(255, 102, 0);
-                        } else {
-                            warnaTeks = Color.BLACK;
-                        }
-                    } else {
-                        sisaWaktu = menit + " menit lagi";
-                        warnaTeks = new Color(204, 0, 0);
-                    }
+                boolean tampil = false;
+                if (selisihHari > 0 && selisihHari <= 3) {
+                    tampil = true;
+                } else if (selisihHari == 0 && selisihMs > 0) {
+                    tampil = true;
                 }
 
-                String teks = String.format(
-                    "<html><b>%s</b> | %s<br>Tanggal: %s | Jam: %s | Prioritas: %s | <span style='color:%s; font-weight:bold;'>%s</span></html>",
-                    k.getNamaKegiatan(), k.getKategori(),
-                    k.getTanggal(), k.getJam(), k.getPrioritas(),
-                    "rgb(" + warnaTeks.getRed() + "," + warnaTeks.getGreen() + "," + warnaTeks.getBlue() + ")",
-                    sisaWaktu
-                );
-
-                JLabel lbl = new JLabel(teks);
-                lbl.setOpaque(true);
-                lbl.setBackground(Color.WHITE);
-                panelItem.add(lbl);
-                PanelDaftar.add(panelItem);
+                if (tampil) {
+                    Kegiatan k = new Kegiatan(
+                        rs.getInt("id_kegiatan"),
+                        rs.getInt("id_pengguna"),
+                        rs.getString("nama_kegiatan"),
+                        rs.getString("kategori"),
+                        rs.getString("tanggal"),
+                        rs.getString("jam"),
+                        rs.getString("prioritas"),
+                        rs.getString("keterangan"),
+                        rs.getString("status")
+                    );
+                    daftarPengingat.add(k);
+                }
             }
+
+            daftarPengingat.sort((a, b) -> {
+                int bandingTgl = a.getTanggal().compareTo(b.getTanggal());
+                if (bandingTgl != 0) return bandingTgl;
+                return a.getJam().compareTo(b.getJam());
+            });
+
+            if (daftarPengingat.isEmpty()) {
+                PanelDaftar.add(new JLabel("Tidak ada jadwal yang mendekati waktunya"));
+            } else {
+                for (Kegiatan k : daftarPengingat) {
+                    JPanel panelItem = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                    panelItem.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
+                    panelItem.setBackground(Color.WHITE);
+
+                    Date tgl = formatTgl.parse(k.getTanggal());
+                    Date jam = formatJam.parse(k.getJam());
+
+                    Calendar kalTgl = Calendar.getInstance();
+                    kalTgl.setTime(tgl);
+                    Calendar kalJam = Calendar.getInstance();
+                    kalJam.setTime(jam);
+                    
+                    Calendar waktuKegiatan = Calendar.getInstance();
+                    waktuKegiatan.set(kalTgl.get(Calendar.YEAR), kalTgl.get(Calendar.MONTH), kalTgl.get(Calendar.DAY_OF_MONTH),
+                                      kalJam.get(Calendar.HOUR_OF_DAY), kalJam.get(Calendar.MINUTE), 0);
+                    
+                    long selisihMs = waktuKegiatan.getTimeInMillis() - sekarang.getTime();
+
+                    String sisaWaktu = "";
+                    Color warnaTeks = Color.BLACK;
+
+                    if (selisihMs < 0) {
+                        sisaWaktu = "Sudah lewat";
+                        warnaTeks = new Color(128, 128, 128);
+                    } else {
+                        long menit = selisihMs / (1000 * 60);
+                        long jamSisa = menit / 60;
+                        long hariSisa = jamSisa / 24;
+
+                        if (hariSisa > 0) {
+                            sisaWaktu = hariSisa + " hari lagi";
+                            warnaTeks = Color.BLACK;
+                        } else if (jamSisa > 0) {
+                            long sisaMenit = menit % 60;
+                            sisaWaktu = jamSisa + " jam " + sisaMenit + " menit lagi";
+                            if (menit <= 30) {
+                                warnaTeks = new Color(204, 0, 0);
+                            } else {
+                                warnaTeks = Color.BLACK;
+                            }
+                        } else {
+                            sisaWaktu = menit + " menit lagi";
+                            if (menit <= 30) {
+                                warnaTeks = new Color(204, 0, 0);
+                            } else {
+                                warnaTeks = Color.BLACK;
+                            }
+                        }
+                    }
+
+                    String teks = String.format(
+                        "<html><b>%s</b> | %s<br>Tanggal: %s | Jam: %s | Prioritas: %s | <span style='color:%s; font-weight:bold;'>%s</span></html>",
+                        k.getNamaKegiatan(), k.getKategori(),
+                        k.getTanggal(), k.getJam(), k.getPrioritas(),
+                        "rgb(" + warnaTeks.getRed() + "," + warnaTeks.getGreen() + "," + warnaTeks.getBlue() + ")",
+                        sisaWaktu
+                    );
+
+                    JLabel lbl = new JLabel(teks);
+                    lbl.setOpaque(true);
+                    lbl.setBackground(Color.WHITE);
+                    panelItem.add(lbl);
+                    PanelDaftar.add(panelItem);
+                }
+            }
+
+            PanelDaftar.revalidate();
+            PanelDaftar.repaint();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Gagal memuat pengingat: " + e.getMessage());
         }
-
-        PanelDaftar.revalidate();
-        PanelDaftar.repaint();
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Gagal memuat pengingat: " + e.getMessage());
     }
-}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -306,7 +309,7 @@ public class PengingatFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTandaiSelesaiActionPerformed
 
     private void btnBalikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBalikActionPerformed
-       dispose();
+        dispose();
     }//GEN-LAST:event_btnBalikActionPerformed
 
     /**
@@ -331,7 +334,7 @@ public class PengingatFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new PengingatFrame(2).setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new PengingatFrame().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

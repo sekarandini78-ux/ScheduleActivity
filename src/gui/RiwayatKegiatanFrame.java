@@ -29,6 +29,7 @@ public class RiwayatKegiatanFrame extends javax.swing.JFrame {
     public RiwayatKegiatanFrame() {
         initComponents();
         setLocationRelativeTo(null);
+        setTitle("Activity History");
         btnBack.addActionListener(this::btnBackActionPerformed);
     }
 
@@ -38,51 +39,51 @@ public class RiwayatKegiatanFrame extends javax.swing.JFrame {
         tampilkanRiwayat();
     }
     
-        private void tampilkanRiwayat() {
-    DefaultTableModel model = (DefaultTableModel) tblRiwayat.getModel();
-    model.setRowCount(0);
+    private void tampilkanRiwayat() {
+        DefaultTableModel model = (DefaultTableModel) tblRiwayat.getModel();
+        model.setRowCount(0);
 
-    try {
-        ResultSet rs = crud.tampilSemuaKegiatan(idPengguna);
-        SimpleDateFormat formatTgl = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat formatJam = new SimpleDateFormat("HH:mm");
-        Date sekarang = new Date();
+        try {
+            ResultSet rs = crud.tampilSemuaKegiatan(idPengguna);
+            SimpleDateFormat formatTgl = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat formatJam = new SimpleDateFormat("HH:mm");
+            Date sekarang = new Date();
 
-        int no = 1;
-        while (rs.next()) {
-            String status = rs.getString("status");
-            Date tgl = formatTgl.parse(rs.getString("tanggal"));
-            Date jam = formatJam.parse(rs.getString("jam"));
+            int no = 1;
+            while (rs.next()) {
+                String status = rs.getString("status");
+                Date tgl = formatTgl.parse(rs.getString("tanggal"));
+                Date jam = formatJam.parse(rs.getString("jam"));
 
-            Calendar waktu = Calendar.getInstance();
-            waktu.setTime(tgl);
-            Calendar jamKal = Calendar.getInstance();
-            jamKal.setTime(jam);
-            waktu.set(Calendar.HOUR_OF_DAY, jamKal.get(Calendar.HOUR_OF_DAY));
-            waktu.set(Calendar.MINUTE, jamKal.get(Calendar.MINUTE));
-            waktu.set(Calendar.SECOND, 0);
+                Calendar waktu = Calendar.getInstance();
+                waktu.setTime(tgl);
+                Calendar jamKal = Calendar.getInstance();
+                jamKal.setTime(jam);
+                waktu.set(Calendar.HOUR_OF_DAY, jamKal.get(Calendar.HOUR_OF_DAY));
+                waktu.set(Calendar.MINUTE, jamKal.get(Calendar.MINUTE));
+                waktu.set(Calendar.SECOND, 0);
 
-            boolean sudahLewat = waktu.getTimeInMillis() < sekarang.getTime();
+                boolean sudahLewat = waktu.getTimeInMillis() < sekarang.getTime();
 
-            if (status.equalsIgnoreCase("Selesai") || sudahLewat) {
-                String tampilStatus = sudahLewat ? "Selesai" : status;
-                model.addRow(new Object[]{
-                    no++,
-                    rs.getString("nama_kegiatan"),
-                    rs.getString("kategori"),
-                    rs.getString("tanggal"),
-                    rs.getString("jam"),
-                    rs.getString("prioritas"),
-                    rs.getString("keterangan"),
-                    tampilStatus
-                });
+                if (status.equalsIgnoreCase("Selesai") || sudahLewat) {
+                    String tampilStatus = sudahLewat ? "Selesai" : status;
+                    model.addRow(new Object[]{
+                        no++,
+                        rs.getString("nama_kegiatan"),
+                        rs.getString("kategori"),
+                        rs.getString("tanggal"),
+                        rs.getString("jam"),
+                        rs.getString("prioritas"),
+                        rs.getString("keterangan"),
+                        tampilStatus
+                    });
+                }
             }
-        }
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Gagal memuat riwayat: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Gagal memuat riwayat: " + e.getMessage());
+        }
     }
-}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -204,7 +205,7 @@ public class RiwayatKegiatanFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        dispose();
+         dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     /**
@@ -229,7 +230,7 @@ public class RiwayatKegiatanFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new RiwayatKegiatanFrame(2).setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new RiwayatKegiatanFrame().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

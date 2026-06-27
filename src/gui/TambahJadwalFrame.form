@@ -143,13 +143,13 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="scrollKeterangan" min="-2" pref="422" max="-2" attributes="0"/>
                                   <Component id="txtNamaKegiatan" min="-2" pref="383" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="spinJam" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="cbbKalender" alignment="0" pref="258" max="32767" attributes="0"/>
-                                      <Component id="cmbKategori" alignment="0" max="32767" attributes="0"/>
-                                  </Group>
                                   <Component id="cmbPrioritas" alignment="0" min="-2" pref="286" max="-2" attributes="0"/>
                                   <Component id="cmbStatus" min="-2" pref="215" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="calenderKegiatan" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="spinJam" alignment="0" pref="258" max="32767" attributes="0"/>
+                                      <Component id="cmbKategori" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                           <Group type="102" attributes="0">
@@ -175,25 +175,20 @@
                           <Component id="lblNamaKegiatan" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtNamaKegiatan" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="8" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblKategori" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cmbKategori" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="cbbKalender" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="lblTanggal" min="-2" pref="20" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="lblTanggal" min="-2" pref="20" max="-2" attributes="0"/>
+                          <Component id="calenderKegiatan" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblJam" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="spinJam" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblJam" min="-2" max="-2" attributes="0"/>
+                          <Component id="spinJam" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -207,7 +202,7 @@
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="8" max="32767" attributes="0"/>
                               <Component id="lblStatus" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                           </Group>
@@ -276,8 +271,6 @@
                   <Dimension value="[115, 20]"/>
                 </Property>
               </Properties>
-            </Component>
-            <Component class="de.wannawork.jcalendar.JCalendarComboBox" name="cbbKalender">
             </Component>
             <Component class="javax.swing.JLabel" name="lblJam">
               <Properties>
@@ -356,6 +349,8 @@
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
+            </Component>
+            <Component class="de.wannawork.jcalendar.JCalendarComboBox" name="calenderKegiatan">
             </Component>
           </SubComponents>
         </Container>

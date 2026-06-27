@@ -10,6 +10,7 @@ package repository;
  * @author Dwi Sekar
  */
 public interface Pengelolaan {
+    void tampilProfil();
     void tambahData();
     void tampilData();
     void ubahData();

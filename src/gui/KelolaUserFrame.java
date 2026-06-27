@@ -1,3 +1,8 @@
+package gui;
+import repository.CRUD;
+import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
+import java.sql.SQLException;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -16,8 +21,65 @@ public class KelolaUserFrame extends javax.swing.JFrame {
      */
     public KelolaUserFrame() {
         initComponents();
+        setLocationRelativeTo(null);
+        setTitle("Manage Users");
+        tampilData();
+    }
+    
+    public void tampilData() {
+        DefaultTableModel model = (DefaultTableModel) tblUser.getModel();
+        model.setRowCount(0);
+
+        CRUD crud = new CRUD();
+
+        try {
+            ResultSet rs = crud.tampilSemuaUser();
+
+            while (rs.next()) {
+                if ("user".equalsIgnoreCase(rs.getString("hak_akses"))) {
+                    Object[] data = {
+                        rs.getString("id_pengguna"),
+                        rs.getString("nama_lengkap"),
+                        rs.getString("username"),
+                        rs.getString("email"),
+                        rs.getString("hak_akses")
+                    };
+                    model.addRow(data);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error : " + e.getMessage());
+        }
     }
 
+    public void tampilDataCari(String kataKunci) {
+        DefaultTableModel model = (DefaultTableModel) tblUser.getModel();
+        model.setRowCount(0);
+
+        CRUD crud = new CRUD();
+
+        try {
+            ResultSet rs = crud.cariUser(kataKunci);
+
+            while (rs.next()) {
+                if ("user".equalsIgnoreCase(rs.getString("hak_akses"))) {
+                    Object[] data = {
+                        rs.getString("id_pengguna"),
+                        rs.getString("nama_lengkap"),
+                        rs.getString("username"),
+                        rs.getString("email"),
+                        rs.getString("hak_akses")
+                    };
+                    model.addRow(data);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error cari : " + e.getMessage());
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,13 +97,12 @@ public class KelolaUserFrame extends javax.swing.JFrame {
         tblUser = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         judul = new javax.swing.JLabel();
-        tambah = new javax.swing.JButton();
+        refresh = new javax.swing.JButton();
         edit = new javax.swing.JButton();
         hapus = new javax.swing.JButton();
         kembali = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(690, 390));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -50,9 +111,9 @@ public class KelolaUserFrame extends javax.swing.JFrame {
         lblCari.setText("Cari");
 
         txtKataKunci.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        txtKataKunci.setText("Kata Kunci.....");
 
         btnCari.setText("Cari");
+        btnCari.addActionListener(this::btnCariActionPerformed);
 
         tblUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -62,7 +123,7 @@ public class KelolaUserFrame extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "No", "Username", "Nama Lengkap", "Email", "Hak Akses"
+                "Id Pengguna", "Nama Lengkap", "Username", "Email", "Hak Akses"
             }
         ));
         scrollUser.setViewportView(tblUser);
@@ -87,9 +148,11 @@ public class KelolaUserFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tambah.setText("Tambah");
+        refresh.setText("Refresh");
+        refresh.addActionListener(this::refreshActionPerformed);
 
         edit.setText("Edit");
+        edit.addActionListener(this::editActionPerformed);
 
         hapus.setText("Hapus");
         hapus.addActionListener(this::hapusActionPerformed);
@@ -101,55 +164,53 @@ public class KelolaUserFrame extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(refresh)
+                .addGap(117, 117, 117)
+                .addComponent(edit)
+                .addGap(125, 125, 125)
+                .addComponent(hapus)
+                .addGap(108, 108, 108)
+                .addComponent(kembali)
+                .addContainerGap(17, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(238, 238, 238))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
                         .addComponent(lblCari)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtKataKunci, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtKataKunci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
-                        .addComponent(btnCari))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(tambah)
-                            .addGap(124, 124, 124)
-                            .addComponent(edit)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(hapus)
-                            .addGap(108, 108, 108)
-                            .addComponent(kembali))
-                        .addComponent(scrollUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                        .addComponent(btnCari)
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(238, 238, 238))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                            .addComponent(scrollUser, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap()))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblCari)
-                            .addComponent(txtKataKunci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCari))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)))
-                .addComponent(scrollUser, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tambah)
+                    .addComponent(btnCari)
+                    .addComponent(txtKataKunci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCari))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(scrollUser, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(refresh)
                     .addComponent(edit)
                     .addComponent(hapus)
                     .addComponent(kembali))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addGap(52, 52, 52))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -173,12 +234,124 @@ public class KelolaUserFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusActionPerformed
-        // TODO add your handling code here:
+        int baris = tblUser.getSelectedRow();
+
+        if (baris == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Pilih user yang akan dihapus!");
+            return;
+        }
+
+        int idPengguna = Integer.parseInt(
+                tblUser.getValueAt(baris, 0).toString());
+
+        int jawab = javax.swing.JOptionPane.showConfirmDialog(
+                this,
+                "Yakin ingin menghapus user ini?",
+                "Konfirmasi",
+                javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (jawab == javax.swing.JOptionPane.YES_OPTION) {
+
+            CRUD crud = new CRUD();
+
+            if (crud.hapusUser(idPengguna)) {
+
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "User berhasil dihapus");
+
+                tampilData();
+
+            } else {
+
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "User gagal dihapus");
+            }
+        }
     }//GEN-LAST:event_hapusActionPerformed
 
     private void kembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kembaliActionPerformed
-        // TODO add your handling code here:
+        new HalamanAdmin().setVisible(true);
+        dispose();
     }//GEN-LAST:event_kembaliActionPerformed
+
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+        tampilData();
+    }//GEN-LAST:event_refreshActionPerformed
+
+    private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
+        int baris = tblUser.getSelectedRow();
+
+        if (baris == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Pilih user terlebih dahulu!");
+            return;
+        }
+
+        int idPengguna = Integer.parseInt(
+                tblUser.getValueAt(baris, 0).toString());
+
+        String namaLengkap =
+                tblUser.getValueAt(baris, 1).toString();
+
+        String username =
+                tblUser.getValueAt(baris, 2).toString();
+
+        String email =
+                tblUser.getValueAt(baris, 3).toString();
+
+        String hakAkses =
+                tblUser.getValueAt(baris, 4).toString();
+
+        namaLengkap = javax.swing.JOptionPane.showInputDialog(
+                this,
+                "Nama Lengkap",
+                namaLengkap);
+
+        username = javax.swing.JOptionPane.showInputDialog(
+                this,
+                "Username",
+                username);
+
+        email = javax.swing.JOptionPane.showInputDialog(
+                this,
+                "Email",
+                email);
+
+        hakAkses = javax.swing.JOptionPane.showInputDialog(
+                this,
+                "Hak Akses",
+                hakAkses);
+
+        CRUD crud = new CRUD();
+
+        boolean berhasil = crud.editUser(
+                idPengguna,
+                namaLengkap,
+                username,
+                email,
+                hakAkses);
+
+        if (berhasil) {
+
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Data berhasil diubah");
+
+            tampilData();
+
+        } else {
+
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Data gagal diubah");
+        }
+    }//GEN-LAST:event_editActionPerformed
+
+    private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
+        String kataKunci = txtKataKunci.getText();
+        tampilDataCari (kataKunci);
+    }//GEN-LAST:event_btnCariActionPerformed
 
     /**
      * @param args the command line arguments
@@ -214,8 +387,8 @@ public class KelolaUserFrame extends javax.swing.JFrame {
     private javax.swing.JLabel judul;
     private javax.swing.JButton kembali;
     private javax.swing.JLabel lblCari;
+    private javax.swing.JButton refresh;
     private javax.swing.JScrollPane scrollUser;
-    private javax.swing.JButton tambah;
     private javax.swing.JTable tblUser;
     private javax.swing.JTextField txtKataKunci;
     // End of variables declaration//GEN-END:variables

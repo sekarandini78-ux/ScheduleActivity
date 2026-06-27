@@ -30,6 +30,7 @@ public class LihatJadwalFrame extends javax.swing.JFrame {
     public LihatJadwalFrame() {
         initComponents();
         setLocationRelativeTo(null);
+        setTitle("View Schedule");
     }
     
     public LihatJadwalFrame(int idPengguna) {
@@ -39,49 +40,48 @@ public class LihatJadwalFrame extends javax.swing.JFrame {
     }
     
     private void tampilkanJadwal() {
-    DefaultTableModel model = (DefaultTableModel) tblJadwal.getModel();
-    model.setRowCount(0);
+        DefaultTableModel model = (DefaultTableModel) tblJadwal.getModel();
+        model.setRowCount(0);
 
-    try {
-        ResultSet rs = crud.tampilSemuaKegiatan(idPengguna);
-        SimpleDateFormat formatTgl = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat formatJam = new SimpleDateFormat("HH:mm");
-        Date sekarang = new Date();
+        try {
+            ResultSet rs = crud.tampilSemuaKegiatan(idPengguna);
+            SimpleDateFormat formatTgl = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat formatJam = new SimpleDateFormat("HH:mm");
+            Date sekarang = new Date();
 
-        int no = 1;
-        while (rs.next()) {
-            String status = rs.getString("status");
-            Date tgl = formatTgl.parse(rs.getString("tanggal"));
-            Date jam = formatJam.parse(rs.getString("jam"));
+            while (rs.next()) {
+                String status = rs.getString("status");
+                Date tgl = formatTgl.parse(rs.getString("tanggal"));
+                Date jam = formatJam.parse(rs.getString("jam"));
 
-            Calendar waktu = Calendar.getInstance();
-            waktu.setTime(tgl);
-            Calendar jamKal = Calendar.getInstance();
-            jamKal.setTime(jam);
-            waktu.set(Calendar.HOUR_OF_DAY, jamKal.get(Calendar.HOUR_OF_DAY));
-            waktu.set(Calendar.MINUTE, jamKal.get(Calendar.MINUTE));
-            waktu.set(Calendar.SECOND, 0);
+                Calendar waktu = Calendar.getInstance();
+                waktu.setTime(tgl);
+                Calendar jamKal = Calendar.getInstance();
+                jamKal.setTime(jam);
+                waktu.set(Calendar.HOUR_OF_DAY, jamKal.get(Calendar.HOUR_OF_DAY));
+                waktu.set(Calendar.MINUTE, jamKal.get(Calendar.MINUTE));
+                waktu.set(Calendar.SECOND, 0);
 
-            boolean sudahLewat = waktu.getTimeInMillis() < sekarang.getTime();
+                boolean sudahLewat = waktu.getTimeInMillis() < sekarang.getTime();
 
-            if (status.equalsIgnoreCase("Belum Selesai") && !sudahLewat) {
-                model.addRow(new Object[]{
-                    rs.getInt("id_kegiatan"),
-                    rs.getString("nama_kegiatan"),
-                    rs.getString("kategori"),
-                    rs.getString("tanggal"),
-                    rs.getString("jam"),
-                    rs.getString("prioritas"),
-                    status,
-                    rs.getString("keterangan")
-                });
+                if (status.equalsIgnoreCase("Belum Selesai") && !sudahLewat) {
+                    model.addRow(new Object[]{
+                        rs.getInt("id_kegiatan"),
+                        rs.getString("nama_kegiatan"),
+                        rs.getString("kategori"),
+                        rs.getString("tanggal"),
+                        rs.getString("jam"),
+                        rs.getString("prioritas"),
+                        status,
+                        rs.getString("keterangan")
+                    });
+                }
             }
-        }
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Gagal memuat jadwal: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Gagal memuat jadwal: " + e.getMessage());
+        }
     }
-}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -239,7 +239,7 @@ public class LihatJadwalFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCariActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
-    int barisTerpilih = tblJadwal.getSelectedRow();
+     int barisTerpilih = tblJadwal.getSelectedRow();
         if (barisTerpilih == -1) {
             JOptionPane.showMessageDialog(null, "Pilih data yang ingin dihapus terlebih dahulu!");
             return;
@@ -261,13 +261,20 @@ public class LihatJadwalFrame extends javax.swing.JFrame {
 
     private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
         dispose();
+        CRUD crud = new CRUD();
+        Pengguna pengguna = crud.ambilDataPengguna(idPengguna);
+        new HalamanUtama(pengguna).setVisible(true);
     }//GEN-LAST:event_btnKembaliActionPerformed
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+        setVisible(false);
         TambahJadwalFrame tambah = new TambahJadwalFrame(idPengguna);
+        tambah.setLocationRelativeTo(null);
+        
         tambah.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
+                setVisible(true);
                 tampilkanJadwal();
             }
         });
@@ -275,21 +282,24 @@ public class LihatJadwalFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-    int barisTerpilih = tblJadwal.getSelectedRow();
+        int barisTerpilih = tblJadwal.getSelectedRow();
         if (barisTerpilih == -1) {
             JOptionPane.showMessageDialog(null, "Pilih data yang ingin diubah terlebih dahulu!");
             return;
         }
 
         int idKegiatan = Integer.parseInt(tblJadwal.getValueAt(barisTerpilih, 0).toString());
+        setVisible(false);
         TambahJadwalFrame ubah = new TambahJadwalFrame(idPengguna, idKegiatan);
+        ubah.setLocationRelativeTo(null);
         ubah.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
+                setVisible(true);
                 tampilkanJadwal();
             }
         });
-        ubah.setVisible(true);                                 
+        ubah.setVisible(true);                       
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
@@ -361,7 +371,7 @@ public class LihatJadwalFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new LihatJadwalFrame(2).setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new LihatJadwalFrame().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

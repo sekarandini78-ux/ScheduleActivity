@@ -1,3 +1,11 @@
+package gui;
+import entity.*;
+import repository.CRUD;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import com.toedter.calendar.JDateChooser;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -16,6 +24,8 @@ public class LaporanKegiatanFrame extends javax.swing.JFrame {
      */
     public LaporanKegiatanFrame() {
         initComponents();
+        setLocationRelativeTo(null);
+        setTitle("Activity Report");
     }
 
     /**
@@ -33,16 +43,21 @@ public class LaporanKegiatanFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnTampilkan = new javax.swing.JButton();
+        btnKembali = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        lblTotal = new javax.swing.JLabel();
+        lblSelesai = new javax.swing.JLabel();
+        lblBelum = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        lblJumlahTotal = new javax.swing.JLabel();
+        lblJumlahSelesai = new javax.swing.JLabel();
+        lblJumlahBelum = new javax.swing.JLabel();
+        tglDari = new com.toedter.calendar.JDateChooser();
+        tglSampai = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,24 +90,31 @@ public class LaporanKegiatanFrame extends javax.swing.JFrame {
 
         jLabel4.setText("Sampai");
 
-        jButton1.setText("Tampilkan");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        btnTampilkan.setText("Tampilkan");
+        btnTampilkan.addActionListener(this::btnTampilkanActionPerformed);
 
-        jButton2.setText("Kembali");
+        btnKembali.setText("Kembali");
+        btnKembali.addActionListener(this::btnKembaliActionPerformed);
 
         jLabel5.setText("Ringkasan");
 
-        jLabel6.setText("Total Kegiatan");
+        lblTotal.setText("Total Kegiatan");
 
-        jLabel7.setText("Selesai");
+        lblSelesai.setText("Selesai");
 
-        jLabel8.setText("Belum Selesai");
+        lblBelum.setText("Belum Selesai");
 
         jLabel9.setText(":");
 
         jLabel10.setText(":");
 
         jLabel11.setText(":");
+
+        lblJumlahTotal.setText("0");
+
+        lblJumlahSelesai.setText("0");
+
+        lblJumlahBelum.setText("0");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -102,17 +124,26 @@ public class LaporanKegiatanFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel8)
+                    .addComponent(lblBelum)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
+                            .addComponent(lblTotal)
+                            .addComponent(lblSelesai))
                         .addGap(24, 24, 24)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblJumlahTotal))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblJumlahSelesai))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblJumlahBelum)))))
+                .addContainerGap(369, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,17 +152,20 @@ public class LaporanKegiatanFrame extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel9))
+                    .addComponent(lblTotal)
+                    .addComponent(jLabel9)
+                    .addComponent(lblJumlahTotal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel10))
+                    .addComponent(lblSelesai)
+                    .addComponent(jLabel10)
+                    .addComponent(lblJumlahSelesai))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel11))
-                .addContainerGap(9, Short.MAX_VALUE))
+                    .addComponent(lblBelum)
+                    .addComponent(jLabel11)
+                    .addComponent(lblJumlahBelum))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -142,10 +176,10 @@ public class LaporanKegiatanFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnTampilkan)
                         .addGap(68, 68, 68))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(btnKembali)
                         .addGap(16, 16, 16))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,9 +191,15 @@ public class LaporanKegiatanFrame extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(26, 26, 26)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
                                     .addComponent(jLabel2)
-                                    .addComponent(jLabel4))))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel4))
+                                        .addGap(46, 46, 46)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(tglDari, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                                            .addComponent(tglSampai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                         .addGap(0, 211, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
@@ -174,15 +214,20 @@ public class LaporanKegiatanFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(tglDari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4))
+                    .addComponent(tglSampai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4)
-                .addComponent(jButton1)
+                .addComponent(btnTampilkan)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(btnKembali)
                 .addGap(28, 28, 28))
         );
 
@@ -206,9 +251,46 @@ public class LaporanKegiatanFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnTampilkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTampilkanActionPerformed
+        if (tglDari.getDate() == null || tglSampai.getDate() == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Pilih tanggal terlebih dahulu!");
+            return;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String tanggalAwal = sdf.format(tglDari.getDate());
+        String tanggalAkhir = sdf.format(tglSampai.getDate());
+
+        CRUD crud = new CRUD();
+
+        try {
+            ResultSet rs = crud.laporanKegiatan(tanggalAwal, tanggalAkhir);
+            int total = 0;
+            int selesai = 0;
+            int belum = 0;
+
+            while (rs.next()) {
+                total++;
+                if ("Selesai".equalsIgnoreCase(rs.getString("status"))) {
+                    selesai++;
+                } else {
+                    belum++;
+                }
+            }
+
+            lblJumlahTotal.setText(String.valueOf(total));
+            lblJumlahSelesai.setText(String.valueOf(selesai));
+            lblJumlahBelum.setText(String.valueOf(belum));
+
+        } catch (SQLException e) {
+            System.out.println("Error laporan : " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnTampilkanActionPerformed
+
+    private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
+        new HalamanAdmin().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnKembaliActionPerformed
 
     /**
      * @param args the command line arguments
@@ -236,8 +318,8 @@ public class LaporanKegiatanFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnKembali;
+    private javax.swing.JButton btnTampilkan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -245,12 +327,17 @@ public class LaporanKegiatanFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblBelum;
+    private javax.swing.JLabel lblJumlahBelum;
+    private javax.swing.JLabel lblJumlahSelesai;
+    private javax.swing.JLabel lblJumlahTotal;
+    private javax.swing.JLabel lblSelesai;
+    private javax.swing.JLabel lblTotal;
+    private com.toedter.calendar.JDateChooser tglDari;
+    private com.toedter.calendar.JDateChooser tglSampai;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
+import com.toedter.calendar.JCalendar;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -28,6 +29,8 @@ public class TambahJadwalFrame extends javax.swing.JFrame {
     public TambahJadwalFrame() {
         initComponents();
         setLocationRelativeTo(null);
+        setTitle("Add / Edit Schedule");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); 
         isiDataAwal();
     }
     
@@ -86,7 +89,6 @@ public class TambahJadwalFrame extends javax.swing.JFrame {
         lblKategori = new javax.swing.JLabel();
         cmbKategori = new javax.swing.JComboBox<>();
         lblTanggal = new javax.swing.JLabel();
-        cbbKalender = new de.wannawork.jcalendar.JCalendarComboBox();
         lblJam = new javax.swing.JLabel();
         spinJam = new javax.swing.JSpinner();
         lblPrioritas = new javax.swing.JLabel();
@@ -96,6 +98,7 @@ public class TambahJadwalFrame extends javax.swing.JFrame {
         txtKeterangan = new javax.swing.JTextArea();
         lblStatus = new javax.swing.JLabel();
         cmbStatus = new javax.swing.JComboBox<>();
+        calenderKegiatan = new de.wannawork.jcalendar.JCalendarComboBox();
         btnSimpan = new javax.swing.JButton();
         btnBatal = new javax.swing.JButton();
 
@@ -173,12 +176,12 @@ public class TambahJadwalFrame extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(scrollKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNamaKegiatan, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(spinJam, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(cbbKalender, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
-                                .addComponent(cmbKategori, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(cmbPrioritas, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(calenderKegiatan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(spinJam, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+                                .addComponent(cmbKategori, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -196,19 +199,16 @@ public class TambahJadwalFrame extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNamaKegiatan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNamaKegiatan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(cbbKalender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(7, 7, 7))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(calenderKegiatan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblJam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(spinJam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -221,7 +221,7 @@ public class TambahJadwalFrame extends javax.swing.JFrame {
                     .addComponent(scrollKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                         .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -304,53 +304,62 @@ public class TambahJadwalFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNamaKegiatanActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-    if(txtNamaKegiatan.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Nama kegiatan tidak boleh kosong!");
-        txtNamaKegiatan.requestFocus();
-        return;
-    }
-    try {
-        SimpleDateFormat formatTanggal = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat formatJam = new SimpleDateFormat("HH:mm:ss");
-        String tgl = formatTanggal.format(cbbKalender.getDate());
-        String jam = formatJam.format((Date) spinJam.getValue());
+        Date tgl = calenderKegiatan.getDate();
+
+        if (tgl == null) {
+            JOptionPane.showMessageDialog(this, "Silakan pilih tanggal terlebih dahulu!");
+            return;
+        }
+
+        SimpleDateFormat formatTgl = new SimpleDateFormat("yyyy-MM-dd");
+        String tanggal = formatTgl.format(tgl);
 
         String nama = txtNamaKegiatan.getText().trim();
         String kategori = cmbKategori.getSelectedItem().toString();
+
+        Date waktuJam = (Date) spinJam.getValue();
+        SimpleDateFormat formatJam = new SimpleDateFormat("HH:mm:ss");
+        String jam = formatJam.format(waktuJam);
+
         String prioritas = cmbPrioritas.getSelectedItem().toString();
         String keterangan = txtKeterangan.getText().trim();
-        String status = cmbStatus.getSelectedItem().toString();
+        String status = "Belum Selesai";
 
-            kegiatan = new Kegiatan(idKegiatan, idPengguna, nama, kategori, tgl, jam, prioritas, keterangan, status);
-            boolean sukses;
-            if (idKegiatan == 0) {
-                sukses = crud.tambahKegiatan(kegiatan);
-            } else {
-                sukses = crud.ubahKegiatan(kegiatan);
-            }
+        Kegiatan k = new Kegiatan();
+        k.setIdPengguna(idPengguna);
+        k.setNamaKegiatan(nama);
+        k.setKategori(kategori);
+        k.setTanggal(tanggal);
+        k.setJam(jam);
+        k.setPrioritas(prioritas);
+        k.setKeterangan(keterangan);
+        k.setStatus(status);
 
-            if(sukses) {
-                JOptionPane.showMessageDialog(null, "Jadwal berhasil disimpan!");
-                bersihkanForm();
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Gagal menyimpan jadwal!");
-            }
+        CRUD crud = new CRUD();
+        boolean sukses;
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Terjadi kesalahan: " + e.getMessage());
-            e.printStackTrace();
+        if (idKegiatan > 0) {
+            k.setIdKegiatan(idKegiatan);
+            sukses = crud.ubahKegiatan(k);
+        } else {
+            sukses = crud.tambahKegiatan(k);
         }
-    
+
+        if (sukses) {
+            JOptionPane.showMessageDialog(this, "Jadwal berhasil disimpan!");
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Gagal menyimpan jadwal!");
+        }
     }//GEN-LAST:event_btnSimpanActionPerformed
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
-    bersihkanForm();
-    dispose();
+        bersihkanForm();
+        dispose();
     }//GEN-LAST:event_btnBatalActionPerformed
     private void bersihkanForm() {
         txtNamaKegiatan.setText("");
         txtKeterangan.setText("");
-        cbbKalender.setDate(new Date());
+        calenderKegiatan.setDate(new Date());
         spinJam.setValue(new Date());
         cmbKategori.setSelectedIndex(0);
         cmbPrioritas.setSelectedIndex(0);
@@ -363,7 +372,7 @@ public class TambahJadwalFrame extends javax.swing.JFrame {
             if (rs.next()) {
                 txtNamaKegiatan.setText(rs.getString("nama_kegiatan"));
                 cmbKategori.setSelectedItem(rs.getString("kategori"));
-                cbbKalender.setDate(java.sql.Date.valueOf(rs.getString("tanggal")));
+                calenderKegiatan.setDate(java.sql.Date.valueOf(rs.getString("tanggal")));
                 SimpleDateFormat sdfJam = new SimpleDateFormat("HH:mm:ss");
                 spinJam.setValue(sdfJam.parse(rs.getString("jam")));
                 cmbPrioritas.setSelectedItem(rs.getString("prioritas"));
@@ -400,13 +409,13 @@ public class TambahJadwalFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new TambahJadwalFrame(2).setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new TambahJadwalFrame().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBatal;
     private javax.swing.JButton btnSimpan;
-    private de.wannawork.jcalendar.JCalendarComboBox cbbKalender;
+    private de.wannawork.jcalendar.JCalendarComboBox calenderKegiatan;
     private javax.swing.JComboBox<String> cmbKategori;
     private javax.swing.JComboBox<String> cmbPrioritas;
     private javax.swing.JComboBox<String> cmbStatus;

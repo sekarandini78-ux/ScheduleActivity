@@ -9,10 +9,6 @@ package entity;
  *
  * @author Dwi Sekar
  */
-/**
- *
- * @author Dwi Sekar
- */
 public class Kegiatan {
     private int idKegiatan;
     private int idPengguna;

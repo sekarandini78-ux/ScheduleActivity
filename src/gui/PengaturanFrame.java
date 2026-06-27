@@ -2,6 +2,9 @@ package gui;
 import entity.*;
 import repository.CRUD;
 import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
+import java.awt.*;
+import java.awt.event.*;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -17,17 +20,57 @@ public class PengaturanFrame extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PengaturanFrame.class.getName());
     private CRUD crud = new CRUD();
     private int idPengguna = 0;
+    private boolean lupaMode = false;
     /**
      * Creates new form PengaturanFrame
      */
     public PengaturanFrame() {
         initComponents();
+        setLocationRelativeTo(null);
+        setTitle("Settings");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+    }
+    
+    public PengaturanFrame(Pengguna p) {
+        this();
+        idPengguna = p.getId();
+        lupaMode = false;
+        jLabel1.setText("PENGATURAN");
+        jLabel3.setText("Password Lama");
+        jLabel6.setVisible(true);
+        jCheckBox1.setVisible(true);
+        jLabel7.setVisible(true);
+        jComboBox1.setVisible(true);
+        muatPengaturanNotifikasi();
+    }
+    
+    public PengaturanFrame(boolean lupaPassword) {
+        this();
+        lupaMode = true;
+        jLabel1.setText("LUPA PASSWORD");
+        jLabel3.setText("Username");
+        jLabel6.setVisible(false);
+        jCheckBox1.setVisible(false);
+        jLabel7.setVisible(false);
+        jComboBox1.setVisible(false);
     }
     
     public PengaturanFrame(int idPengguna) {
-    this();
-    this.idPengguna = idPengguna;
-}
+        this();
+        this.idPengguna = idPengguna;
+    }
+    
+    private void muatPengaturanNotifikasi() {
+        Object[] data = crud.ambilPengaturanNotifikasi(idPengguna);
+        boolean aktif = (boolean) data[0];
+        int menit = (int) data[1];
+        
+        jCheckBox1.setSelected(aktif);
+        jComboBox1.setSelectedItem(menit + " menit");
+    }
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -54,10 +97,12 @@ public class PengaturanFrame extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Book Antiqua", 1, 14)); // NOI18N
         jLabel1.setText("PENGATURAN");
@@ -67,113 +112,72 @@ public class PengaturanFrame extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addComponent(jLabel1))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addComponent(jLabel1))
         );
+
+        jPanel1.add(jPanel2);
+        jPanel2.setBounds(278, 20, 112, 23);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("UBAH PASSWORD");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(28, 67, 104, 16);
 
         jLabel3.setText("Password Lama");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(28, 104, 82, 16);
 
         jLabel4.setText("Password Baru");
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(28, 138, 77, 16);
 
         jLabel5.setText("Konfirmasi Password");
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(28, 172, 110, 16);
+        jPanel1.add(jPasswordField1);
+        jPasswordField1.setBounds(163, 101, 213, 22);
+        jPanel1.add(jPasswordField2);
+        jPasswordField2.setBounds(163, 135, 213, 22);
+        jPanel1.add(jPasswordField3);
+        jPasswordField3.setBounds(163, 169, 213, 22);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("PENGINGAT");
+        jPanel1.add(jLabel6);
+        jLabel6.setBounds(28, 218, 68, 16);
 
         jCheckBox1.setText("Aktifkan Notifikasi");
+        jPanel1.add(jCheckBox1);
+        jCheckBox1.setBounds(28, 246, 120, 20);
 
         jLabel7.setText("Waktu Pengingat (menit sebelum)");
+        jPanel1.add(jLabel7);
+        jLabel7.setBounds(28, 275, 181, 16);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5 menit", "10 menit", "15 menit", "30 menit", "60 menit" }));
+        jPanel1.add(jComboBox1);
+        jComboBox1.setBounds(227, 272, 80, 22);
 
         jButton1.setText("Simpan");
         jButton1.addActionListener(this::jButton1ActionPerformed);
+        jPanel1.add(jButton1);
+        jButton1.setBounds(28, 331, 72, 23);
 
         jButton2.setText("Kembali");
         jButton2.addActionListener(this::jButton2ActionPerformed);
+        jPanel1.add(jButton2);
+        jButton2.setBounds(591, 331, 73, 23);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(278, 278, 278)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel2)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jLabel5))
-                                        .addGap(25, 25, 25)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
-                                            .addComponent(jPasswordField2)
-                                            .addComponent(jPasswordField3)))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jCheckBox1))
-                                .addGap(0, 288, Short.MAX_VALUE)))))
-                .addGap(14, 14, 14))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBox1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(24, 24, 24))
-        );
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Gambar/WhatsApp Image 2026-06-26 at 10.34.28.jpeg"))); // NOI18N
+        jPanel1.add(jLabel8);
+        jLabel8.setBounds(0, 0, 680, 380);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -181,14 +185,14 @@ public class PengaturanFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -196,44 +200,87 @@ public class PengaturanFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String passLama = new String(jPasswordField1.getPassword()).trim();
+        String input1 = new String(jPasswordField1.getPassword()).trim();
         String passBaru = new String(jPasswordField2.getPassword()).trim();
         String passKonfirm = new String(jPasswordField3.getPassword()).trim();
 
-        if (idPengguna <= 0) {
-            JOptionPane.showMessageDialog(null, "Data pengguna tidak valid!");
-            return;
-        }
-        if (passBaru.isEmpty() || passKonfirm.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Password baru tidak boleh kosong!");
-            return;
-        }
-        if (!passBaru.equals(passKonfirm)) {
-            JOptionPane.showMessageDialog(null, "Konfirmasi tidak cocok!");
+        boolean sukses = false;
+
+        if (lupaMode) {
+            if (input1.isEmpty() || passBaru.isEmpty() || passKonfirm.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Isi Username, Password Baru, dan Konfirmasi!");
+                return;
+            }
+            if (!passBaru.equals(passKonfirm)) {
+                JOptionPane.showMessageDialog(this, "Password baru dan konfirmasi tidak cocok!");
+                return;
+            }
+            int id = crud.cariIdPenggunaDariUsername(input1);
+            if (id == 0) {
+                JOptionPane.showMessageDialog(this, "Username tidak ditemukan!");
+                return;
+            }
+            sukses = crud.ubahPasswordLangsung(id, passBaru);
+
+            if (sukses) {
+                JOptionPane.showMessageDialog(this, "✅ Password berhasil diubah! Silakan login kembali.");
+                new LoginFrame().setVisible(true);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "❌ Gagal mengubah password!");
+            }
             return;
         }
 
-        boolean sukses;
-        if (passLama.isEmpty()) {
-            sukses = crud.ubahPassword(idPengguna, passBaru);
-        } else {
-            sukses = crud.ubahPassword(idPengguna, passLama, passBaru);
+        boolean adaUbahPassword = !passBaru.isEmpty() || !passKonfirm.isEmpty();
+
+        if (adaUbahPassword) {
+            if (input1.isEmpty() || passBaru.isEmpty() || passKonfirm.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Isi Password Lama, Baru, dan Konfirmasi!");
+                return;
+            }
+            if (!passBaru.equals(passKonfirm)) {
+                JOptionPane.showMessageDialog(this, "Password baru dan konfirmasi tidak cocok!");
+                return;
+            }
+            sukses = crud.ubahPasswordDenganLama(idPengguna, input1, passBaru);
+            if (!sukses) {
+                JOptionPane.showMessageDialog(this, "❌ Password lama salah atau gagal diubah!");
+                return;
+            }
         }
 
-        if (sukses) {
-            JOptionPane.showMessageDialog(null, "Password berhasil diubah!");
-            // new LoginFrame().setVisible(true);
-            dispose();
+        boolean aktifNotif = jCheckBox1.isSelected();
+        int menit = Integer.parseInt(jComboBox1.getSelectedItem().toString().replace(" menit", ""));
+        boolean simpanNotif = crud.simpanPengaturanNotifikasi(idPengguna, aktifNotif, menit);
+
+        if (adaUbahPassword) {
+            if (sukses && simpanNotif) {
+                JOptionPane.showMessageDialog(this, "✅ Password & Pengaturan tersimpan!");
+            } else {
+                JOptionPane.showMessageDialog(this, "✅ Password diubah, tapi gagal simpan notifikasi!");
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Gagal ubah password!");
-        }
+            if (simpanNotif) {
+                JOptionPane.showMessageDialog(this, "✅ Pengaturan notifikasi tersimpan!");
+            } else {
+                JOptionPane.showMessageDialog(this, "❌ Gagal menyimpan pengaturan!");
+            }
+        }                                                                     
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // new LoginFrame().setVisible(true);
-        dispose();
+        kembaliKeTujuan();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    
+    private void kembaliKeTujuan() {
+        dispose();
+        if (lupaMode) {
+            new LoginFrame().setVisible(true);
+        } 
+    }
+        
     /**
      * @param args the command line arguments
      */
@@ -271,6 +318,7 @@ public class PengaturanFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
