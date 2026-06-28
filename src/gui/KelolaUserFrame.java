@@ -95,25 +95,34 @@ public class KelolaUserFrame extends javax.swing.JFrame {
         btnCari = new javax.swing.JButton();
         scrollUser = new javax.swing.JScrollPane();
         tblUser = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        judul = new javax.swing.JLabel();
         refresh = new javax.swing.JButton();
         edit = new javax.swing.JButton();
         hapus = new javax.swing.JButton();
         kembali = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(680, 400));
+        setResizable(false);
+        getContentPane().setLayout(null);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(null);
 
         lblCari.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCari.setText("Cari");
+        jPanel2.add(lblCari);
+        lblCari.setBounds(310, 90, 50, 20);
 
         txtKataKunci.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        jPanel2.add(txtKataKunci);
+        txtKataKunci.setBounds(370, 90, 162, 24);
 
         btnCari.setText("Cari");
         btnCari.addActionListener(this::btnCariActionPerformed);
+        jPanel2.add(btnCari);
+        btnCari.setBounds(560, 90, 72, 23);
 
         tblUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -128,107 +137,35 @@ public class KelolaUserFrame extends javax.swing.JFrame {
         ));
         scrollUser.setViewportView(tblUser);
 
-        judul.setFont(new java.awt.Font("Book Antiqua", 1, 20)); // NOI18N
-        judul.setText("KELOLA USER");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(judul)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(judul)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jPanel2.add(scrollUser);
+        scrollUser.setBounds(30, 180, 646, 135);
 
         refresh.setText("Refresh");
         refresh.addActionListener(this::refreshActionPerformed);
+        jPanel2.add(refresh);
+        refresh.setBounds(40, 340, 80, 23);
 
         edit.setText("Edit");
         edit.addActionListener(this::editActionPerformed);
+        jPanel2.add(edit);
+        edit.setBounds(210, 340, 80, 23);
 
         hapus.setText("Hapus");
         hapus.addActionListener(this::hapusActionPerformed);
+        jPanel2.add(hapus);
+        hapus.setBounds(402, 340, 80, 23);
 
         kembali.setText("Kembali");
         kembali.addActionListener(this::kembaliActionPerformed);
+        jPanel2.add(kembali);
+        kembali.setBounds(563, 340, 90, 23);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(refresh)
-                .addGap(117, 117, 117)
-                .addComponent(edit)
-                .addGap(125, 125, 125)
-                .addComponent(hapus)
-                .addGap(108, 108, 108)
-                .addComponent(kembali)
-                .addContainerGap(17, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblCari)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtKataKunci, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCari)
-                        .addContainerGap())
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(238, 238, 238))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                            .addComponent(scrollUser, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap()))))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCari)
-                    .addComponent(txtKataKunci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblCari))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(scrollUser, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(refresh)
-                    .addComponent(edit)
-                    .addComponent(hapus)
-                    .addComponent(kembali))
-                .addGap(52, 52, 52))
-        );
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Gambar/WhatsApp Image 2026-06-28 at 08.45.11.jpeg"))); // NOI18N
+        jPanel2.add(jLabel1);
+        jLabel1.setBounds(7, 0, 680, 390);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        getContentPane().add(jPanel2);
+        jPanel2.setBounds(-5, -6, 690, 390);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -382,9 +319,8 @@ public class KelolaUserFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnCari;
     private javax.swing.JButton edit;
     private javax.swing.JButton hapus;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel judul;
     private javax.swing.JButton kembali;
     private javax.swing.JLabel lblCari;
     private javax.swing.JButton refresh;

@@ -64,6 +64,8 @@ public class RegisterFrame extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(720, 420));
+        setResizable(false);
         setSize(new java.awt.Dimension(690, 390));
         getContentPane().setLayout(null);
 
@@ -116,12 +118,12 @@ public class RegisterFrame extends javax.swing.JFrame {
         jLabel1.setText("Create Account");
         jLabel1.setOpaque(true);
         jPanel2.add(jLabel1);
-        jLabel1.setBounds(150, 30, 145, 27);
+        jLabel1.setBounds(150, 30, 160, 27);
 
         jLabel2.setText("Silakan lengkapi data diri untuk membuat akun baru");
         jLabel2.setOpaque(true);
         jPanel2.add(jLabel2);
-        jLabel2.setBounds(150, 70, 276, 16);
+        jLabel2.setBounds(150, 70, 290, 16);
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -172,17 +174,17 @@ public class RegisterFrame extends javax.swing.JFrame {
         jPanel2.add(register);
         register.setBounds(151, 290, 350, 23);
         jPanel2.add(jSeparator1);
-        jSeparator1.setBounds(138, 330, 140, 10);
+        jSeparator1.setBounds(148, 330, 130, 10);
 
         jLabel8.setText("atau");
         jPanel2.add(jLabel8);
-        jLabel8.setBounds(290, 320, 23, 16);
+        jLabel8.setBounds(290, 320, 40, 16);
         jPanel2.add(jSeparator2);
-        jSeparator2.setBounds(327, 330, 180, 10);
+        jSeparator2.setBounds(340, 330, 160, 10);
 
         jLabel9.setText("Sudah punya akun?");
         jPanel2.add(jLabel9);
-        jLabel9.setBounds(190, 350, 103, 16);
+        jLabel9.setBounds(160, 350, 120, 16);
 
         login.setForeground(new java.awt.Color(34, 76, 203));
         login.setText("Login disini");
@@ -192,11 +194,11 @@ public class RegisterFrame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(login);
-        login.setBounds(310, 350, 61, 16);
+        login.setBounds(350, 350, 80, 16);
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Gambar/WhatsApp Image 2026-06-26 at 10.34.28.jpeg"))); // NOI18N
         jPanel2.add(jLabel10);
-        jLabel10.setBounds(-140, 0, 700, 390);
+        jLabel10.setBounds(-140, 0, 660, 390);
 
         getContentPane().add(jPanel2);
         jPanel2.setBounds(180, 0, 530, 400);

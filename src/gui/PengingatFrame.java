@@ -196,18 +196,32 @@ public class PengingatFrame extends javax.swing.JFrame {
         PanelDaftar = new javax.swing.JPanel();
         btnTandaiSelesai = new javax.swing.JButton();
         btnBalik = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(700, 420));
+        setResizable(false);
+        getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(null);
 
         lblJudul.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         lblJudul.setForeground(new java.awt.Color(153, 153, 255));
         lblJudul.setText("Pengingat");
+        jPanel1.add(lblJudul);
+        lblJudul.setBounds(289, 26, 97, 26);
+        jPanel1.add(jSeparator1);
+        jSeparator1.setBounds(398, 42, 70, 10);
+        jPanel1.add(jSeparator2);
+        jSeparator2.setBounds(207, 42, 70, 10);
+        jPanel1.add(jSeparator3);
+        jSeparator3.setBounds(190, 58, 295, 10);
 
         lblDaftarPengingat.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
-        lblDaftarPengingat.setForeground(new java.awt.Color(153, 153, 255));
         lblDaftarPengingat.setText("Daftar Pengingat");
+        jPanel1.add(lblDaftarPengingat);
+        lblDaftarPengingat.setBounds(120, 80, 150, 19);
 
         scrollDaftarPengingat.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollDaftarPengingat.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -215,76 +229,29 @@ public class PengingatFrame extends javax.swing.JFrame {
         PanelDaftar.setLayout(new javax.swing.BoxLayout(PanelDaftar, javax.swing.BoxLayout.Y_AXIS));
         scrollDaftarPengingat.setViewportView(PanelDaftar);
 
+        jPanel1.add(scrollDaftarPengingat);
+        scrollDaftarPengingat.setBounds(19, 113, 641, 218);
+
         btnTandaiSelesai.setBackground(new java.awt.Color(204, 255, 204));
         btnTandaiSelesai.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnTandaiSelesai.setForeground(new java.awt.Color(0, 204, 0));
         btnTandaiSelesai.setText("Tandai Selesai");
         btnTandaiSelesai.addActionListener(this::btnTandaiSelesaiActionPerformed);
+        jPanel1.add(btnTandaiSelesai);
+        btnTandaiSelesai.setBounds(30, 349, 107, 23);
 
         btnBalik.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnBalik.setText("Kembali");
         btnBalik.addActionListener(this::btnBalikActionPerformed);
+        jPanel1.add(btnBalik);
+        btnBalik.setBounds(585, 349, 75, 23);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(207, 207, 207)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblJudul)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(190, 190, 190)
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGap(30, 30, 30)
-                            .addComponent(btnTandaiSelesai)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnBalik))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGap(19, 19, 19)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblDaftarPengingat)
-                                .addComponent(scrollDaftarPengingat, javax.swing.GroupLayout.PREFERRED_SIZE, 641, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(31, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblJudul))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(lblDaftarPengingat)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollDaftarPengingat, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTandaiSelesai)
-                    .addComponent(btnBalik))
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Gambar/WhatsApp Image 2026-06-28 at 11.08.44.jpeg"))); // NOI18N
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(-3, 0, 700, 390);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 691, 390);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -341,6 +308,7 @@ public class PengingatFrame extends javax.swing.JFrame {
     private javax.swing.JPanel PanelDaftar;
     private javax.swing.JButton btnBalik;
     private javax.swing.JButton btnTandaiSelesai;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;

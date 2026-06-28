@@ -308,7 +308,8 @@ public class HalamanUtama extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(255, 204, 204));
         setMaximumSize(new java.awt.Dimension(589, 410));
-        setMinimumSize(new java.awt.Dimension(589, 410));
+        setMinimumSize(new java.awt.Dimension(694, 426));
+        setResizable(false);
         setSize(new java.awt.Dimension(589, 410));
         getContentPane().setLayout(null);
 
@@ -415,7 +416,7 @@ public class HalamanUtama extends javax.swing.JFrame {
         jLabel6.setBounds(-170, 0, 681, 400);
 
         jPanel3.add(jPanel1);
-        jPanel1.setBounds(170, 0, 508, 407);
+        jPanel1.setBounds(178, 0, 500, 390);
 
         getContentPane().add(jPanel3);
         jPanel3.setBounds(0, 0, 680, 390);

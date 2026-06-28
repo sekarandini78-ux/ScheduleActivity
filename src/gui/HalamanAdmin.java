@@ -182,8 +182,9 @@ public class HalamanAdmin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(690, 400));
-        setMinimumSize(new java.awt.Dimension(690, 400));
+        setMinimumSize(new java.awt.Dimension(690, 420));
         setPreferredSize(new java.awt.Dimension(690, 400));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -260,7 +261,7 @@ public class HalamanAdmin extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI Black", 3, 18)); // NOI18N
         jLabel6.setText("JADWAL BARU");
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(200, 200, 180, 25);
+        jLabel6.setBounds(340, 200, 180, 25);
 
         jLabel5.setText("Total User");
 
