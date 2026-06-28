@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 21, 2026 at 11:44 AM
+-- Generation Time: Jun 28, 2026 at 02:22 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -44,9 +44,12 @@ CREATE TABLE `tb_kegiatan` (
 --
 
 INSERT INTO `tb_kegiatan` (`id_kegiatan`, `id_pengguna`, `nama_kegiatan`, `kategori`, `tanggal`, `jam`, `prioritas`, `keterangan`, `status`) VALUES
-(1, 1, 'Proyek Akhir', 'Akademik', '2026-06-15', '09:00:00', 'Tinggi', 'Penyelesaian aplikasi Chronosys', 'Belum Selesai'),
-(2, 2, 'Belajar Ujian', 'Akademik', '2026-06-12', '13:00:00', 'Tinggi', 'Materi Pemrograman Berorientasi Objek', 'Belum Selesai'),
-(3, 3, 'Rapat Organisasi', 'Organisasi', '2026-06-10', '10:00:00', 'Sedang', 'Pembagian tugas babak baru', 'Belum Selesai');
+(1, 2, 'Proyek Akhir', 'Akademik', '2026-06-30', '09:00:00', 'Tinggi', 'Penyelesaian aplikasi Chronosys', 'Belum Selesai'),
+(2, 2, 'Belajar Ujian', 'Akademik', '2026-06-26', '12:00:00', 'Tinggi', 'Materi Pemrograman Berorientasi Objek', 'Selesai'),
+(3, 3, 'Rapat Organisasi', 'Organisasi', '2026-06-30', '10:00:00', 'Sedang', 'Pembagian tugas babak baru', 'Belum Selesai'),
+(5, 2, 'Kerkom Projek', 'Akademik', '2026-06-24', '07:00:00', 'Tinggi', 'Kerkom Projek Pbo', 'Selesai'),
+(6, 2, 'Latihan Perkusi', 'Organisasi', '2026-06-26', '15:30:14', 'Sedang', 'Latihan Rutin Perkusi', 'Selesai'),
+(7, 2, 'Rapat Himfo', 'Organisasi', '2026-06-25', '15:25:01', 'Sedang', 'Rapat Proker Pendidikan', 'Selesai');
 
 -- --------------------------------------------------------
 
@@ -60,17 +63,19 @@ CREATE TABLE `tb_pengguna` (
   `username` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `hak_akses` enum('admin','user') NOT NULL DEFAULT 'user'
+  `hak_akses` enum('admin','user') NOT NULL DEFAULT 'user',
+  `aktif_notifikasi` tinyint(1) DEFAULT 0,
+  `waktu_pengingat` int(11) DEFAULT 15
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_pengguna`
 --
 
-INSERT INTO `tb_pengguna` (`id_pengguna`, `nama_lengkap`, `username`, `email`, `password`, `hak_akses`) VALUES
-(1, 'Dwi Sekar Andini', 'sekar', 'dwi.sekar@mail.com', 'admin123', 'admin'),
-(2, 'Adelia Dwi Arafah', 'adelia', 'adelia.dwi@mail.com\r\n', 'user123', 'user'),
-(3, 'Delphia Oktaviani', 'delphia', 'delphia.okta@mail.com', 'user123', 'user');
+INSERT INTO `tb_pengguna` (`id_pengguna`, `nama_lengkap`, `username`, `email`, `password`, `hak_akses`, `aktif_notifikasi`, `waktu_pengingat`) VALUES
+(1, 'Dwi Sekar Andini', 'sekar', 'dwi.sekar@mail.com', 'admin123', 'admin', 0, 15),
+(2, 'Adelia Dwi Arafah', 'adelia', 'adelia.dwi@mail.com\r\n', 'user123', 'user', 1, 5),
+(3, 'Delphia Oktaviani', 'delphia', 'delphia.okta@mail.com', 'user123', 'user', 1, 5);
 
 --
 -- Indexes for dumped tables
@@ -98,7 +103,7 @@ ALTER TABLE `tb_pengguna`
 -- AUTO_INCREMENT for table `tb_kegiatan`
 --
 ALTER TABLE `tb_kegiatan`
-  MODIFY `id_kegiatan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_kegiatan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `tb_pengguna`
