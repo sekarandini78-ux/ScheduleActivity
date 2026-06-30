@@ -1,72 +1,41 @@
-# ScheduleActivity
- 
-Nama Kelompok : CHRONOSYS
+Mata Kuliah : Pemrograman Berorientasi Objek
+Dosen Pengampu : Herika Hayurani
 
-Judul Aplikasi : Sistem Pengelolaan Jadwal & Agenda Kegiatan
+Kelompok : CHRONOSYS
 
-Tentang Aplikasi:
+Ketua Kelompok
+Nama : Dwi Sekar Andini
+Kelas : A
+NPM : 1402025018
 
-PengelolaanJadwalKegiatan adalah aplikasi berbasis Java yang dibuat untuk membantu kita mengatur waktu dan kegiatan sehari-hari jadi lebih rapi, terstruktur, dan tidak gampang lupa. Aplikasi ini cocok banget dipakai sama pelajar, mahasiswa, maupun siapa saja yang ingin mencatat, mengatur, dan memantau jadwal atau tugas-tugas yang harus diselesaikan.
+Anggota 1
+Nama : Adelia Dwi Arafah
+Kelas : A
+NPM : 1402025001
 
-Di dalamnya sudah ada fitur buat catat kegiatan, mengelompokkan jadwal, menandai mana yang paling penting, sampai penyimpanan data yang aman pakai MySQL/phpMyAdmin. Ada juga pembagian hak akses, jadi ada pengguna biasa dan admin yang punya kendali penuh atas sistem.
+Anggota 2
+Nama : Delphia Oktaviani
+Kelas : B
+NPM : 1402025014
 
+Berkas ini menjelaskan kelengkapan proyek akhir kami yang berjudul "Sistem Pengelolaan Jadwal & Agenda Kegiatan".
 
-👥 Anggota Kelompok & Pembagian Tugas
+Aplikasi ini merupakan aplikasi desktop berbasis Java yang dikembangkan untuk membantu pengguna dalam mengelola jadwal dan agenda kegiatan sehari-hari agar lebih teratur, terorganisir, dan mudah dipantau. Pengguna dapat menambahkan, mengubah, melihat, serta menghapus jadwal kegiatan sesuai kebutuhan. Selain itu, aplikasi juga dilengkapi dengan fitur pengingat, riwayat kegiatan, laporan, serta pengelolaan data pengguna berdasarkan hak akses Admin dan User.
 
-🔹 Ketua Kelompok
+Aplikasi ini dikembangkan menggunakan bahasa pemrograman Java dengan menerapkan konsep Object Oriented Programming (OOP) dan menggunakan MySQL sebagai media penyimpanan data.
 
-Nama Lengkap: Dwi Sekar Andini  
+Pembagian Tugas
 
-NPM: 1402025018  
+- Dwi Sekar Andini bertanggung jawab dalam pengembangan fitur Riwayat Kegiatan, Pengaturan, Tambah Jadwal, dan Lihat Jadwal.
 
-Tugas & Peran:
-- Merancang alur sistem dan struktur database
-- Membuat kode program utama, mulai dari konsep OOP, koneksi ke database, sampai fitur tambah, ubah, hapus data
-- Mengelola tempat penyimpanan kode di GitHub dan menyusun dokumentasi proyek
+- Adelia Dwi Arafah bertanggung jawab dalam pengembangan fitur Login, Register, Kelola User, Kelola Jadwal, dan Laporan Kegiatan, sekaligus merancang antarmuka (GUI) agar aplikasi memiliki tampilan yang menarik, konsisten, dan mudah digunakan.
 
+- Delphia Oktaviani bertanggung jawab dalam pengembangan Halaman Admin dan Halaman Utama, serta melakukan integrasi navigasi aplikasi agar seluruh fitur dapat saling terhubung dengan baik.
 
-🔹 Anggota 1
+Selama proses pengembangan aplikasi, seluruh anggota kelompok juga berkontribusi secara bersama-sama dalam menerapkan konsep Object Oriented Programming (OOP), meliputi penggunaan class, object, encapsulation, inheritance, abstraction, polymorphism, serta implementasi operasi CRUD pada fitur yang dikembangkan sesuai dengan pembagian tugas masing-masing.
 
-Nama Lengkap: Adelia Dwi Arafah  
+Berkas Proyek Terdiri Dari
 
-NPM: 1402025001  
-
-Tugas & Peran:
-- Merancang dan membuat tampilan antarmuka aplikasi biar enak dilihat dan gampang dipakai
-- Membuat halaman-halaman utama: seperti halaman daftar akun, masuk aplikasi, dan tampilan utama pengelolaan jadwal
-- Menyesuaikan tampilan supaya pas dan nyaman saat digunakan
-
-🔹 Anggota 2
-
-Nama Lengkap: Delphia Oktaviani  
-
-NPM: 1402025014  
-
-Tugas & Peran:
-- Menghubungkan tampilan yang sudah dibuat dengan kode program supaya semua tombol dan menu bisa berjalan
-- Menguji semua fitur aplikasi dan memperbaiki kalau ada yang kurang pas atau bermasalah
-- Menyusun laporan teknis dan mendokumentasikan cara kerja sistem
-
-
-🛠️ Teknologi yang Dipakai: 
-- Bahasa Pemrograman: Java
-- Penyimpanan Data: MySQL / phpMyAdmin
-- Alat Bantu Pengembangan: NetBeans IDE
-- Pengelolaan Versi Kode: Git \& GitHub
-
-
-✅ Fitur Utama:
-
-1. Pendaftaran & Masuk Akun  
-Pengguna baru bisa mendaftar sendiri dengan mengisi data lengkap. Sistem akan otomatis membedakan hak akses, jadi pengguna baru langsung masuk sebagai pengguna biasa, sedangkan admin diatur secara khusus.
-
-2. Pengelolaan Jadwal Kegiatan
-Pengguna bisa menambah daftar kegiatan, melihat semua jadwal yang sudah dibuat, mengubah isi jadwal kalau ada perubahan, serta menghapus kegiatan yang sudah selesai atau tidak diperlukan lagi.
-
-3. Keamanan & Kerapian Data
-Semua informasi akun dan jadwal tersimpan rapi di dalam database MySQL, jadi data aman, tidak mudah hilang, dan terstruktur dengan baik.
-
-4. Pembagian Hak Akses
-- Admin: Punya kendali penuh, bisa mengelola semua data pengguna dan kegiatan.
-- Pengguna Biasa: Hanya bisa mengatur jadwal dan data diri sendiri.
-
+1. File database MySQL : [db_chronosys.sql]
+2. Source Code Project : [Apache NetBeans IDE]
+3. Repository GitHub : [https://github.com/sekarandini78-ux/ScheduleActivity]
